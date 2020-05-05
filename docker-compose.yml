@@ -1,0 +1,32 @@
+#docker run --rm --name kimai -p 8080:8080 -v data:/home/project/kimai2/var/data/ --env-file kimai.env pfoxkimai2:latest^C
+#docker run --rm --name kimai -p 8080:8080 -v data:/home/project/kimai2/var/data/ --env-file kimai.env pfoxkimai2:latest^C
+
+version: '3.5'
+services:
+  kimai:
+    container_name: kimai_container
+    image: pfoxkimai2:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - data:/home/project/kimai2/var/data/ 
+    environment:
+      - DATABASE_URL=sqlite:///%kernel.project_dir%/var/data/kimai.sqlite
+      - APP_SECRET=changeme
+      - TZ=Atlantic/Canary
+      - TRUSTED_PROXIES=
+      - TRUSTED_HOSTS=
+      - MAILER_FROM=invalid@example.org
+      - MAILER_URL=null://localhost
+      - INSTALL_ADMINUSER=marc
+      - INSTALL_ADMINPASS=marc2020
+      - INSTALL_ADMINMAIL=invalid@example.org
+      - INSTALL_PLUGIN_EASYBACKUPBUNDLE=true
+      - INSTALL_PLUGIN_CUSTOMCSSBUNDLE=true
+      - INSTALL_PLUGIN_READONLYACCESSBUNDLE=true
+      - INSTALL_PLUGIN_RECALCULATERATESBUNDLE=true
+      - INSTALL_PLUGIN_EMPTYDESCRIPTIONCHECKERBUNDLE=true
+      - ALLOW_USER_REG=false
+    restart: unless-stopped
+volumes:
+    data:
